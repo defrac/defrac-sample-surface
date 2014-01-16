@@ -13,6 +13,7 @@ public class CanvasSample extends GenericApp {
   public static void main(String[] args) {
     Bootstrap.run(new CanvasSample());
   }
+
   @Override
   protected void onCreate() {
     // Create a Canvas element with its own renderer implementation
@@ -28,7 +29,17 @@ public class CanvasSample extends GenericApp {
     onResize().attach(new Procedure<StageEvent.Resize>() {
       @Override
       public void apply(StageEvent.Resize resize) {
-        canvas.size(width(), height());
+        // Adjusts the quality of the shader:
+        // 
+        //   1 = No downsampling
+        //   4 = OK
+        //   8 = Starts to look really ugly
+        int ratio = 4;
+
+        // We do not want to fry the graphics card so we simply
+        // draw a smaller canvas and scale the result
+        canvas.size(width()/ratio, height()/ratio);
+        canvas.scaleTo(ratio);
       }
     });
   }
