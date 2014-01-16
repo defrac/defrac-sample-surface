@@ -130,6 +130,9 @@ class CanvasRenderer implements Procedure<Canvas.Arguments> {
     // Fetch the position of pointer 0 (mouse or first touch point)
     eventManager.pointerPos(mousePos, /*index=*/0);
 
+    // Convert to local coordinates (since we scale it!)
+    arguments.canvas.globalToLocal(mousePos);
+
     // Actual rendering code:
     // - clear screen
     // - use gpu program
