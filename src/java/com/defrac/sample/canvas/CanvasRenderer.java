@@ -11,9 +11,6 @@ import defrac.resource.StringResource;
 import static com.defrac.sample.canvas.GLUtil.createShader;
 import static com.defrac.sample.canvas.GLUtil.linkProgram;
 
-/**
- *
- */
 class CanvasRenderer implements Procedure<Canvas.Arguments> {
   UIEventManager eventManager;
   Point mousePos = new Point();
