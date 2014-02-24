@@ -118,7 +118,7 @@ class CanvasRenderer implements Procedure<Canvas.Arguments> {
       buffer = gl.createBuffer();
       gl.bindBuffer(GL.ARRAY_BUFFER, buffer);
       // Create two triangles that fill the whole viewport
-      gl.bufferData(GL.ARRAY_BUFFER, new float[] { -1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f }, GL.STATIC_DRAW);
+      gl.bufferData(GL.ARRAY_BUFFER, new float[] { -1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f }, 0, 12, GL.STATIC_DRAW);
     } else {
       // We already have a buffer and need to bind it!
       gl.bindBuffer(GL.ARRAY_BUFFER, buffer);
