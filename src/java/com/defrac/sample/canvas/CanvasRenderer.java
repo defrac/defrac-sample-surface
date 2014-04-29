@@ -2,16 +2,17 @@ package com.defrac.sample.canvas;
 
 import defrac.display.Canvas;
 import defrac.display.event.UIEventManager;
-import defrac.event.ResourceEvent;
 import defrac.geom.Point;
 import defrac.gl.*;
-import defrac.lang.Procedure;
 import defrac.resource.StringResource;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import static com.defrac.sample.canvas.GLUtil.createShader;
 import static com.defrac.sample.canvas.GLUtil.linkProgram;
 
-class CanvasRenderer implements Procedure<Canvas.Arguments> {
+class CanvasRenderer implements Canvas.Renderer {
   UIEventManager eventManager;
   Point mousePos = new Point();
   String shaderCode;
@@ -21,22 +22,26 @@ class CanvasRenderer implements Procedure<Canvas.Arguments> {
   GLBuffer buffer;
   GLUniformLocation time, mouse, resolution;
 
-  Procedure<ResourceEvent.Complete<String>> onShaderComplete =
-      new Procedure<ResourceEvent.Complete<String>>() {
-        @Override
-        public void apply(ResourceEvent.Complete<String> event) {
-          onShaderComplete(event.content);
-        }
-      };
-
   CanvasRenderer(UIEventManager eventManager) {
     this.eventManager = eventManager;
 
     // Load a StringResource which contains the code of the shader
     StringResource shaderResource =
         StringResource.from("shader.glsl");
-    shaderResource.onComplete.attach(onShaderComplete);
-    shaderResource.onUpdate.attach(onShaderComplete); //listen for onUpdate so we an hot-swap the code!
+
+    shaderResource.listener(new StringResource.SimpleListener() {
+      @Override
+      public void onResourceComplete(@Nonnull StringResource resource, @Nonnull String content) {
+        onShaderComplete(content);
+      }
+
+      @Override
+      public void onResourceUpdate(@Nonnull StringResource resource, @Nonnull String content) {
+        //listen for onUpdate so we an hot-swap the code!
+        onShaderComplete(content);
+      }
+    });
+
     shaderResource.load();
   }
 
@@ -56,13 +61,18 @@ class CanvasRenderer implements Procedure<Canvas.Arguments> {
   //
   // Note: The rendering system tries to get rid of redundant calls!
   @Override
-  public void apply(Canvas.Arguments arguments) {
+  public void onCanvasRender(@Nonnull final Canvas canvas,
+                             @Nonnull final GL gl,
+                             @Nonnull final GLFrameBuffer frameBuffer,
+                             @Nullable final GLRenderBuffer renderBuffer,
+                             @Nonnull final GLTexture canvasTexture,
+                             final float width, final float height,
+                             final int viewportWidth, final int viewportHeight,
+                             final boolean transparent) {
     if(null == shaderCode) {
       //No code loaded yet, do nothing
       return;
     }
-
-    GL gl = arguments.gl;
 
     // We have some code to load
     if(reload) {
@@ -128,7 +138,7 @@ class CanvasRenderer implements Procedure<Canvas.Arguments> {
     eventManager.pointerPos(mousePos, /*index=*/0);
 
     // Convert to local coordinates (since we scale it!)
-    arguments.canvas.globalToLocal(mousePos);
+    canvas.globalToLocal(mousePos);
 
     // Actual rendering code:
     // - clear screen
@@ -139,7 +149,7 @@ class CanvasRenderer implements Procedure<Canvas.Arguments> {
     gl.useProgram(program);
     gl.uniform1f(time, t);
     gl.uniform2f(mouse, mousePos.x, mousePos.y);
-    gl.uniform2f(resolution, arguments.width, arguments.height);
+    gl.uniform2f(resolution, width, height);
     gl.enableVertexAttribArray(0);
     gl.vertexAttribPointer(0, 2, GL.FLOAT, false, 0, 0);
     gl.drawArrays(GL.TRIANGLES, 0, 6);
