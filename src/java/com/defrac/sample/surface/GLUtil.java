@@ -1,4 +1,4 @@
-package com.defrac.sample.canvas;
+package com.defrac.sample.surface;
 
 import defrac.gl.GL;
 import defrac.gl.GLProgram;

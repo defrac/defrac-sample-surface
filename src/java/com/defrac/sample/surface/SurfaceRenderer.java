@@ -1,6 +1,6 @@
-package com.defrac.sample.canvas;
+package com.defrac.sample.surface;
 
-import defrac.display.Canvas;
+import defrac.display.GLSurface;
 import defrac.display.event.UIEventManager;
 import defrac.geom.Point;
 import defrac.gl.*;
@@ -9,10 +9,10 @@ import defrac.resource.StringResource;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static com.defrac.sample.canvas.GLUtil.createShader;
-import static com.defrac.sample.canvas.GLUtil.linkProgram;
+import static com.defrac.sample.surface.GLUtil.createShader;
+import static com.defrac.sample.surface.GLUtil.linkProgram;
 
-class CanvasRenderer implements Canvas.Renderer {
+class SurfaceRenderer implements GLSurface.Renderer {
   UIEventManager eventManager;
   Point mousePos = new Point();
   String shaderCode;
@@ -22,7 +22,7 @@ class CanvasRenderer implements Canvas.Renderer {
   GLBuffer buffer;
   GLUniformLocation time, mouse, resolution;
 
-  CanvasRenderer(UIEventManager eventManager) {
+  SurfaceRenderer(UIEventManager eventManager) {
     this.eventManager = eventManager;
 
     // Load a StringResource which contains the code of the shader
@@ -52,7 +52,7 @@ class CanvasRenderer implements Canvas.Renderer {
   }
 
   // This method is called by the rendering system every time the
-  // Canvas is being rendered
+  // surface is being rendered
   //
   // Note that we are running within the renderer system so we
   // always get a fresh state, which means we have to bind buffers again
@@ -61,11 +61,11 @@ class CanvasRenderer implements Canvas.Renderer {
   //
   // Note: The rendering system tries to get rid of redundant calls!
   @Override
-  public void onCanvasRender(@Nonnull final Canvas canvas,
+  public void onGLSurfaceRender(@Nonnull final GLSurface surface,
                              @Nonnull final GL gl,
                              @Nonnull final GLFrameBuffer frameBuffer,
                              @Nullable final GLRenderBuffer renderBuffer,
-                             @Nonnull final GLTexture canvasTexture,
+                             @Nonnull final GLTexture surfaceTexture,
                              final float width, final float height,
                              final int viewportWidth, final int viewportHeight,
                              final boolean transparent) {
@@ -138,7 +138,7 @@ class CanvasRenderer implements Canvas.Renderer {
     eventManager.pointerPos(mousePos, /*index=*/0);
 
     // Convert to local coordinates (since we scale it!)
-    canvas.globalToLocal(mousePos);
+    surface.globalToLocal(mousePos);
 
     // Actual rendering code:
     // - clear screen

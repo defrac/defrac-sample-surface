@@ -1,8 +1,8 @@
 {
-  "name": "Canvas Sample",
+  "name": "Surface Sample",
   "package": "com.defrac.sample",
-  "identifier": "canvas",
-  "main": "com.defrac.sample.canvas.CanvasSample",
+  "identifier": "surface",
+  "main": "com.defrac.sample.surface.SurfaceSample",
   "targets": [
     "web",
     "jvm",
@@ -10,11 +10,15 @@
   ],
   "web": {
     "debug": "false",
-    "strictMode": "false"
+    "strictMode": "false",
+    "width": 512,
+    "height": 512
   },
   "jvm": {
-    "width": "800",
-    "height": "600"
+    "width": "512",
+    "height": "512"
   },
-  "android": {"deploy": "device"}
+  "android": {
+    "deploy": "device"
+  }
 }

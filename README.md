@@ -1,6 +1,6 @@
-Canvas Sample
+Surface Sample
 ====================
-This project demostrates the usage of the `defrac.display.Canvas` object.
+This project demostrates the usage of the `defrac.display.GLSurface` object.
 It also shows how you can use the hotswap mode in order to develop code,
 like a GLSL shader.
 
@@ -10,4 +10,4 @@ to see the changes instantly.
 
 Online Demo
 ===========
-http://www.defrac.com/sample-canvas/
+http://www.defrac.com/sample-surface/
