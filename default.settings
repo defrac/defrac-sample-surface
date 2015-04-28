@@ -1,23 +1,28 @@
 {
   "name": "Surface Sample",
-  "package": "com.defrac.sample",
-  "identifier": "surface",
+  "package": "com.defrac.sample.surface",
+  "version": "1.0",
+
   "main": "com.defrac.sample.surface.SurfaceSample",
+
   "targets": [
     "web",
     "jvm",
     "android"
   ],
+
   "web": {
     "debug": "false",
     "strictMode": "false",
     "width": 512,
     "height": 512
   },
+
   "jvm": {
     "width": "512",
     "height": "512"
   },
+
   "android": {
     "deploy": "device"
   }
