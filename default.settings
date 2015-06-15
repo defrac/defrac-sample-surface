@@ -3,7 +3,7 @@
   "package": "com.defrac.sample.surface",
   "version": "1.0",
 
-  "main": "com.defrac.sample.surface.SurfaceSample",
+  "main": "com.defrac.sample.surface.Main",
 
   "targets": [
     "web",
@@ -12,15 +12,8 @@
   ],
 
   "web": {
-    "debug": "false",
-    "strictMode": "false",
-    "width": 512,
-    "height": 512
-  },
-
-  "jvm": {
-    "width": "512",
-    "height": "512"
+    "debug": false,
+    "strictMode": false
   },
 
   "android": {
