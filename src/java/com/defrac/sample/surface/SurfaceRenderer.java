@@ -68,6 +68,7 @@ class SurfaceRenderer implements GLSurface.Renderer {
                              @Nonnull final GLTexture surfaceTexture,
                              final float width, final float height,
                              final int viewportWidth, final int viewportHeight,
+                             final float pixelRatio,
                              final boolean transparent) {
     if(null == shaderCode) {
       //No code loaded yet, do nothing
@@ -148,7 +149,7 @@ class SurfaceRenderer implements GLSurface.Renderer {
     gl.clear(GL.COLOR_BUFFER_BIT);
     gl.useProgram(program);
     gl.uniform1f(time, t);
-    gl.uniform2f(mouse, mousePos.x, mousePos.y);
+    gl.uniform2f(mouse, mousePos.x * pixelRatio, mousePos.y * pixelRatio);
     gl.uniform2f(resolution, width, height);
     gl.enableVertexAttribArray(0);
     gl.vertexAttribPointer(0, 2, GL.FLOAT, false, 0, 0);
