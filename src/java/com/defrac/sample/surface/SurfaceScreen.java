@@ -1,12 +1,13 @@
 package com.defrac.sample.surface;
 
 import defrac.display.GLSurface;
-import defrac.ui.*;
+import defrac.ui.ContentScreen;
+import defrac.ui.DisplayList;
 
 /**
  *
  */
-public class SurfaceScreen extends Screen {
+public class SurfaceScreen extends ContentScreen {
   DisplayList displayList;
 
   @Override
